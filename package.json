@@ -1,0 +1,16 @@
+{
+  "name": "sample-rest-client",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Saple Rest Client for dg API",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Enrico Bahls",
+  "license": "MIT",
+  "dependencies": {
+    "form-data": "^4.0.0",
+    "node-fetch": "^3.3.2"
+  }
+}
