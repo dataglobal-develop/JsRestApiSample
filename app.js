@@ -2,6 +2,9 @@ import * as fs from "fs";
 import * as pa from 'path';
 
 const host = "http://10.30.0.65/RESTfulAPI";
+const departement = 1654084758;
+const userId = 'username';
+const pwd = 'password';
 
 async function login(user, password) {
   const endpoint = "/csrest/v1.4/auth/logon";
@@ -112,26 +115,6 @@ async function query(token, indexName,query ){
 
 }
 
-async function main() {
-  let token = await login("ds-eobs", "dgdemo");
-  console.log(await departments(token));
-  // await download(token, "1654084758", 62);
-  let result= await query(token, "VERTRAGSMANAGEMENT",{'VERTRAGSNUMMER':'.>'});
-  Array.from(result.docIdents).forEach(hit => download(token,hit.deptId, hit.docId, './downloads/'));
-/*
-  console.log(await createDocument(token,1654084758,"#Hallo Welt",
-  [{"fieldName":"__STAMPNAME","fieldValue":"VERTRAGSMANAGEMENT"},
-  {"fieldName":"VERTRAGSSTATUS","fieldValue":"aktiv"},
-  {"fieldName":"EDIT67","fieldValue":"test@test.de"}]));
-  */
-  console.log(await uploadDocument(token,1654084758,"./downloads/av_bayern.pdf",
-  [{"fieldName":"__STAMPNAME","fieldValue":"VERTRAGSMANAGEMENT"},
-  {"fieldName":"VERTRAGSSTATUS","fieldValue":"aktiv"},
-  {"fieldName":"EDIT67","fieldValue":"test@muenchen.de"}]));
-
-  //console.log( JSON.stringify( await fetchIndex(token, "1654084758", 62)));
-  //console.log(token);
-}
 
 async function  createDocument(token,deptId,document,index)
 {
@@ -214,6 +197,28 @@ async function  uploadDocument(token,deptId,file,index)
    }
 
    
+}
+
+
+async function main() {
+  let token = await login(userId, pwd);
+  console.log(await departments(token));
+  console.log(token);
+  let result= await query(token, "VERTRAGSMANAGEMENT",{'VERTRAGSNUMMER':'.>'});
+  Array.from(result.docIdents).forEach(hit => download(token,hit.deptId, hit.docId, './downloads/'));
+
+  console.log(await createDocument(token,departement,"#Hallo Welt",
+  [{"fieldName":"__STAMPNAME","fieldValue":"VERTRAGSMANAGEMENT"},
+  {"fieldName":"VERTRAGSSTATUS","fieldValue":"aktiv"},
+  {"fieldName":"EDIT67","fieldValue":"test@test.de"}]));
+  
+  console.log(await uploadDocument(token,departement,"./downloads/av_bayern.pdf",
+  [{"fieldName":"__STAMPNAME","fieldValue":"VERTRAGSMANAGEMENT"},
+  {"fieldName":"VERTRAGSSTATUS","fieldValue":"aktiv"},
+  {"fieldName":"EDIT67","fieldValue":"test@muenchen.de"}]));
+
+  console.log( JSON.stringify( await fetchIndex(token, "departement", 62)));
+
 }
 
 main();
